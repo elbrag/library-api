@@ -1,8 +1,10 @@
+type IsoDateString = string; // Improvement: add validation to ensure datestring is of the correct format
+
 export interface Book {
 	id: number;
 	title: string;
 	author: string;
-	dateOfPublish: string;
+	dateOfPublish: IsoDateString;
 	coverImage: string;
 }
 
