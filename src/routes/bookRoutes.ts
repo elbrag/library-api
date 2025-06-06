@@ -8,11 +8,9 @@ import {
 
 const router = Router();
 
-const route = "books";
-
-router.get(`/${route}`, getBooks);
-router.post(`/${route}`, addBook);
-router.delete(`/${route}/:id`, deleteBook);
-router.put(`/${route}/:id`, updateBook);
+router.get("/", getBooks);
+router.post("/", addBook);
+router.delete("/:id", deleteBook);
+router.put("/:id", updateBook);
 
 export default router;

@@ -1,14 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import { Book, books } from "../models/book";
+import { books as booksData } from "../db/books";
 
 /**
  * Get books
  */
 export const getBooks = (
-	request: Request,
+	_request: Request,
 	response: Response,
 	next: NextFunction
-) => {};
+) => {
+	try {
+		response.json(booksData);
+	} catch (error) {
+		next(error);
+	}
+};
 
 /**
  * Add book
