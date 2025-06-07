@@ -1,11 +1,10 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { ApiError } from "../models/error";
 
 export const handleError = (
 	error: ApiError,
-	request: Request,
-	response: Response,
-	next: NextFunction
+	_request: Request,
+	response: Response
 ) => {
 	console.error(error);
 	const code = error.statusCode ?? 500;
