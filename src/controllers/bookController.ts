@@ -2,6 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { Book, books } from "../models/book";
 import { books as bookList } from "../db/books";
 
+// TODO:
+// Get rid of all inferred anys
+// Type request bodies?
+// More explanations
+// More error handling
+
 /**
  * Get books
  */
@@ -26,9 +32,10 @@ export const addBook = (
 	next: NextFunction
 ) => {
 	try {
-		const book = request.body;
+		const book: Book = request.body;
+		book.id = bookList[bookList.length - 1].id + 1;
 		bookList.push(book);
-		response.status(201).json(bookList); // In reality we would of course make a new GET call rather than expect a result here for the updated list. Then the return value here would simply be an ok status, not the new book list
+		response.status(201).json(bookList);
 	} catch (error) {
 		next(error);
 	}
