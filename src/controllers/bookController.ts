@@ -32,8 +32,11 @@ export const addBook = (
 	next: NextFunction
 ) => {
 	try {
-		const book: Book = request.body;
-		book.id = bookList[bookList.length - 1].id + 1;
+		const bookData: BookWithoutId = request.body;
+		const book: Book = {
+			...bookData,
+			id: bookList[bookList.length - 1].id + 1,
+		};
 		bookList.push(book);
 		response.status(201).json();
 	} catch (error) {
