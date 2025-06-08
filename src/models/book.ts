@@ -7,7 +7,7 @@ export const BookSchema = z.object({
 	dateOfPublish: z
 		.string()
 		.regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/),
-	coverImage: z.string(),
+	coverImage: z.string().url(),
 });
 
 export const BookWithoutIdSchema = BookSchema.omit({ id: true });
