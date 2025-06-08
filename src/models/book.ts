@@ -4,7 +4,9 @@ export const BookSchema = z.object({
 	id: z.number(),
 	title: z.string(),
 	author: z.string(),
-	dateOfPublish: z.string(), // Improvement: validate date string as timestamp
+	dateOfPublish: z
+		.string()
+		.regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/),
 	coverImage: z.string(),
 });
 
