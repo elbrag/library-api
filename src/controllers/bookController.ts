@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Book, books } from "../models/book";
+import { Book, BookWithoutId } from "../models/book";
 import { books as bookList } from "../db/books";
 
 // TODO:
@@ -35,7 +35,7 @@ export const addBook = (
 		const book: Book = request.body;
 		book.id = bookList[bookList.length - 1].id + 1;
 		bookList.push(book);
-		response.status(201).json(bookList);
+		response.status(201).json();
 	} catch (error) {
 		next(error);
 	}
@@ -79,9 +79,9 @@ export const updateBook = (
 		const bookIndex = bookList.findIndex((book) => book.id === bookId);
 		if (!bookIndex) throw new Error("This book is not in the library");
 
-		const newData = request.body;
+		const newData: BookWithoutId = request.body;
 		bookList[bookIndex] = { ...bookList[bookIndex], ...newData };
-		response.status(200).json(bookList);
+		response.status(200).json();
 	} catch (error) {
 		next(error);
 	}

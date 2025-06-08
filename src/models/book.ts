@@ -8,4 +8,4 @@ export interface Book {
 	coverImage: string;
 }
 
-export let books: Book[] = [];
+export type BookWithoutId = Omit<Book, "id">;
