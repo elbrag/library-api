@@ -51,9 +51,16 @@ export const deleteBook = (
 ) => {
 	try {
 		const bookId = parseInt(request.params.id);
-		if (!bookId) throw new Error("This book is not in the library");
-		const newBookList = bookList.filter((book) => book.id !== bookId);
-		response.status(200).json(newBookList);
+
+		const bookIndex = bookList.findIndex((book) => book.id === bookId);
+
+		if (bookIndex === -1) {
+			throw new Error("This book is not in the library");
+		}
+
+		bookList.splice(bookIndex, 1);
+
+		response.status(204).end();
 	} catch (error) {
 		next(error);
 	}
