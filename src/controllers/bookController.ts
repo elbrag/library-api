@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Book, BookWithoutId } from "../models/book";
+import { Book, BookWithoutId, BookWithoutIdSchema } from "../models/book";
 import { books as bookList } from "../db/books";
 
 // TODO:
@@ -32,10 +32,10 @@ export const addBook = (
 	next: NextFunction
 ) => {
 	try {
-		const bookData: BookWithoutId = request.body;
+		const bookData = BookWithoutIdSchema.parse(request.body);
 		const book: Book = {
 			...bookData,
-			id: bookList[bookList.length - 1].id + 1,
+			id: bookList.length > 0 ? bookList[bookList.length - 1].id + 1 : 1, // Improvement: This is a bad fallback
 		};
 		bookList.push(book);
 		response.status(201).json();
