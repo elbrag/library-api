@@ -1,12 +1,10 @@
 import { z } from "zod";
 
-type IsoDateString = string; // Improvement: add validation to ensure datestring is of the correct format
-
 export const BookSchema = z.object({
 	id: z.number(),
 	title: z.string(),
 	author: z.string(),
-	dateOfPublish: z.string(),
+	dateOfPublish: z.string(), // Improvement: validate date string as timestamp
 	coverImage: z.string(),
 });
 

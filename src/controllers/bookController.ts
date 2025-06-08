@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { Book, BookWithoutId, BookWithoutIdSchema } from "../models/book";
+import { Book, BookWithoutIdSchema } from "../models/book";
 import { books as bookList } from "../db/books";
+import { ApiError } from "../models/error";
 
 // TODO:
 // Get rid of all inferred anys
@@ -17,6 +18,10 @@ export const getBooks = (
 	next: NextFunction
 ) => {
 	try {
+		if (!bookList || !Array.isArray(bookList)) {
+			throw new ApiError("Book list is not available", 500);
+		}
+
 		response.json(bookList);
 	} catch (error) {
 		next(error);
@@ -55,10 +60,14 @@ export const deleteBook = (
 	try {
 		const bookId = parseInt(request.params.id);
 
+		if (isNaN(bookId)) {
+			throw new ApiError("Book ID is invalid (not a number)", 400);
+		}
+
 		const bookIndex = bookList.findIndex((book) => book.id === bookId);
 
 		if (bookIndex === -1) {
-			throw new Error("This book is not in the library");
+			throw new ApiError("This book is not in the library", 404);
 		}
 
 		bookList.splice(bookIndex, 1);
@@ -79,11 +88,21 @@ export const updateBook = (
 ) => {
 	try {
 		const bookId = parseInt(request.params.id);
-		const bookIndex = bookList.findIndex((book) => book.id === bookId);
-		if (!bookIndex) throw new Error("This book is not in the library");
 
-		const newData: BookWithoutId = request.body;
+		if (isNaN(bookId)) {
+			throw new ApiError("Book ID is invalid (not a number)", 400);
+		}
+
+		const bookIndex = bookList.findIndex((book) => book.id === bookId);
+
+		if (bookIndex === -1) {
+			throw new ApiError("This book is not in the library", 404);
+		}
+
+		const newData = BookWithoutIdSchema.parse(request.body);
+
 		bookList[bookIndex] = { ...bookList[bookIndex], ...newData };
+
 		response.status(200).json();
 	} catch (error) {
 		next(error);
