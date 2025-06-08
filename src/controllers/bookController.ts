@@ -2,13 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { Book, BookWithoutIdSchema } from "../models/book";
 import { books as bookList } from "../db/books";
 import { ApiError } from "../models/error";
-
-// TODO:
-// Get rid of all inferred anys
-// Type request bodies?
-// More explanations
-// More error handling
-
 /**
  * Get books
  */
